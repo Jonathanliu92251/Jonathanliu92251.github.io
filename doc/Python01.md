@@ -32,7 +32,7 @@ Questions
 	1 基本数据类型 ?
 	2 数据结构 ?
 
-#chapter 2. Data Type	
+# chapter 2. Data Type	
 
 ## Numeric Types and Operators
 
@@ -62,8 +62,8 @@ Complex Numbers
 - 字串转为整数 int(str, base)
 - max(), min(), any(), all(), sum()
     
-#chapter 6. ADVANCED EXPRESSIONS
-##modules:
+# chapter 6. ADVANCED EXPRESSIONS
+## modules:
 - import math
 	- sin cos tan asin acos atan sinh cosh tanh
 	- exp sqrt pow log hypot
@@ -77,19 +77,19 @@ Complex Numbers
 - ‘~’, ‘&’, ‘^’, ‘|’, ‘<<’ and ‘>>’.
 
 
-#Chapter 7. Variables
-##1. Naming:
+# Chapter 7. Variables
+## 1. Naming:
 - Names that begin with ‘_’ are typically private to a module or class.
 - Names that begin with ‘__’ are part of the way the Python interpreter is built.
 - In Python, every variable is a simple reference to an underlying object.
 
-##1. How to debug in MicrosoftCode ?
+## 2. How to debug in MicrosoftCode ?
 - Python Experimental
 - F10 - StepOver
 
-#chapter 8 Truth and Logic
+# chapter 8 Truth and Logic
 
-##8.1 Truth and Logic
+## 8.1 Truth and Logic
 - Python represents truth and falsity in a variety of ways.
 	- False. Also:
 		- 0, 
@@ -102,7 +102,7 @@ Complex Numbers
 	- bool(object)
 	- operator: AND OR 
 
-##8.2 Comparisons
+## 8.2 Comparisons
 
 	- > < >= <= == !=
 	
@@ -114,7 +114,7 @@ Complex Numbers
 Exact equality between floating-point numbers is a dangerous concept.
 abs(a-b)<0.0001
 
-8.3 If - elif - else
+## 8.3 If - elif - else
 
     if d1+d2 == 2 or d1+d2 == 12:
         print "field win" 
@@ -128,7 +128,7 @@ abs(a-b)<0.0001
 assert condition , expression
 
 
-#9. Loop
+# Chapter 9. Loop
 
     for s in iterable :
         statements
@@ -138,7 +138,7 @@ assert condition , expression
     while expression:
         suite
 
-#10 Functions
+# Chapter 10. Functions
 - argument, variable
 
 		def functionName ( parameter<,....>):
@@ -170,7 +170,7 @@ assert condition , expression
 	- debug console
 	- BUT how to F5
 
-#Chapter 12. SEQUENCES: STRINGS, TUPLES AND LISTS
+# Chapter 12. SEQUENCES: STRINGS, TUPLES AND LISTS
 - Sequence:
 	- A sequence is a container of objects which are kept in a specific order. 
 	- We can identify the individual objects in a sequence by their position or index. 
@@ -223,7 +223,7 @@ assert condition , expression
 
 - Modules:
 
-#chapter 13. STRINGS
+# chapter 13. STRINGS
 
 	msg = "A very long" \
 	"message, which didn't fit on" \
@@ -253,7 +253,7 @@ text-intensive applications we may want to avoid creating separate string object
 	- Instead, we may want to create a single string object – the input buffer – and work with slices of that buffer.  
 That's Python does, and we get flexibility and simplicity.
 
-#Chapter 14. TUPLES
+# Chapter 14. TUPLES
 - Latin suffix for multiples: double, triple, quadruple, quintuple.
 - a tuple has a fixed and known number of elements, N-cordinal ARRAY but immutable. 
 - The elements of a tuple do not have to be the same type.
@@ -273,12 +273,12 @@ That's Python does, and we get flexibility and simplicity.
 		>>> q,r = divmod(355,113) 
     	>>> (q,r)
         3, 16
-Chapter 15. LISTS
+# Chapter 15. LISTS
 
 - A list is a container for variable length sequence of Python objects
 - A list is mutable, items within the list can be changed, added or removed.
-
-		myList = [ 2, 3, 4, 9, 10, 11, 12 ]
+	
+	myList = [ 2, 3, 4, 9, 10, 11, 12 ]
     	history = [ ]
 
     	>>> i = range(10)
