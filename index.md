@@ -1,3 +1,3 @@
 # Python Language
-- [Python01](/doc/python01.md)
-- [Python02](/doc/python02.md)
+- [Python01](/doc/Python01.md)
+- [Python02](doc/Python02.md)
