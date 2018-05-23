@@ -6,7 +6,7 @@
 - standard arithmetic operations
 - division, multiplication, addition, and subtraction.
 
-###Exponentials
+### Exponentials
 - squaring a number; in other words, multipying a number by itself
 - in other words, 5 x 5 x 5, or 5-cubed
 
@@ -21,7 +21,7 @@
 - square root
 - cube root
 
-###Logarithms
+### Logarithms
 ~~~~~~~~
  4?=16
 ~~~~~~~~
@@ -116,7 +116,7 @@ Matrices and vectors are used together to manipulate spatial dimensions
 
 ## Conditional Probability and Dependence
 
-###Probability
+### Probability
 
 Many of the problems we try to solve using statistics are to do with probability. For example, what's the probable salary for a graduate who scored a given score in their final exam at school? Or, what's the likely height of a child given the height of his or her parents?
 
@@ -131,7 +131,7 @@ Let's start with some basic definitions and principles.
     An event is a specific outome of single instance of an experiment - for example, tossing a coin and getting tails.
     Probability is a value between 0 and 1 that indicates the likelihood of a particular event, with 0 meaning that the event is impossible, and 1 meaning that the event is inevitable. In general terms, it's calculated like this:
 
-###Conditional Probability and Dependence
+### Conditional Probability and Dependence
 
 Events can be:
 
@@ -145,7 +145,7 @@ A binomial variable is used to count how frequently an event occurs in a fixed n
 
 P(x=k)=n!/(k!*(n−k)!) *p^k *(1−p)^(n−k)
 
-###Sample and Sampling Distributions
+### Sample and Sampling Distributions
 - Confidence Intervals
 
 - Working with Sampling Distributions
