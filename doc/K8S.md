@@ -19,7 +19,7 @@ LinuxFoundationX: LFS158x
 [Chapter 15. Advanced Topics - Overview](#chapter-15)    
 [Chapter 16. Kubernetes Community](#chapter-16)
 
-#<a name="chapter-01"></a>Chapter 1. Container Orchestration  
+# <a name="chapter-01"></a>Chapter 1. Container Orchestration  
 **Objectives:**  
 
 *             Define the concept of container orchestration.
@@ -66,7 +66,7 @@ Container orchestrators can make things easy for operators:
 
 
 
-#Chapter 2. Kubernetes
+# <a name="chapter-01"></a> Chapter 2. Kubernetes
 **Objectives:**  
 
 1.             Define Kubernetes.
@@ -104,7 +104,7 @@ Kubernetes can be deployed on the environment of our choice, be it VMs, bare met
 
 
 
-#Chapter 3. Kubernetes Architecture - Overview 
+# <a name="chapter-01"></a>Chapter 3. Kubernetes Architecture - Overview 
 
 **Objectives:**
 
@@ -145,7 +145,7 @@ Kubernetes can be deployed on the environment of our choice, be it VMs, bare met
   *          Tectonic by CoreOS.
 * Bare Metal ( Cloud )
 
-#<a name="chapter-05"></a>Chapter 5. Setting Up a Single-Node Kubernetes Cluster with Minikube 
+# <a name="chapter-05"></a>Chapter 5. Setting Up a Single-Node Kubernetes Cluster with Minikube 
 **Objectives:**  
 
  1. Discuss Minikube.
@@ -153,7 +153,7 @@ Kubernetes can be deployed on the environment of our choice, be it VMs, bare met
  1. Verify the installation.
  
            
-#<a name="chapter-06"></a>Chapter 6. Accessing Minikube 
+# <a name="chapter-06"></a>Chapter 6. Accessing Minikube 
 **Objectives:**  
 
 1.             Review methods to access any Kubernetes cluster.
@@ -161,7 +161,7 @@ Kubernetes can be deployed on the environment of our choice, be it VMs, bare met
 1.             Access the Minikube dashboard.
 1.             Access Minikube via APIs.
 
-#<a name="chapter-07"></a>Chapter 7. Kubernetes Building Blocks 
+# <a name="chapter-07"></a>Chapter 7. Kubernetes Building Blocks 
 **Objectives:**  
 
  1. Review the Kubernetes object model.
@@ -204,7 +204,7 @@ Kubernetes can be deployed on the environment of our choice, be it VMs, bare met
 *         Operations like scaling the deployment do not trigger the deployment.
 
 **6. Namespaces**
-#<a name="chapter-08"></a>Chapter 8. Authentication, Authorization, Admission Control 
+# <a name="chapter-08"></a>Chapter 8. Authentication, Authorization, Admission Control 
 
 
 **Objectives:**
@@ -253,7 +253,7 @@ Kubernetes can be deployed on the environment of our choice, be it VMs, bare met
 1.           **Authenticating Proxy.**  
             If we want to program additional authentication logic, we can use an authenticating proxy. 
 
-#<a name="chapter-09"></a>Chapter 9. Services
+# <a name="chapter-09"></a>Chapter 9. Services
 
 **Objectives:**
 
@@ -290,7 +290,7 @@ Traffic that is ingressed into the cluster with the ExternalIP (as destination I
 1. *ExternalName* （specific vendor support)  
 configured Services like my-database.example.com available inside the cluster, using just the name, like my-database, to other Services inside the same Namespace.
 
-#<a name="chapter-10"></a> Chapter 10. Deploying a Stand-Alone Application
+# <a name="chapter-10"></a> Chapter 10. Deploying a Stand-Alone Application
 
 **Objectives:**
 
@@ -356,7 +356,7 @@ spec:
 **Liveness probe** checks on an application's health, and, if for some reason, the health check fails, it restarts the affected container automatically.  
 Sometimes, applications have to meet certain conditions before they can serve traffic. These conditions include ensuring that the depending service is ready, or acknowledging that a large dataset needs to be loaded, etc. In such cases, we use **Readiness Probes** and wait for a certain condition to occur. Only then, the application can serve traffic.
 
-#<a name="chapter-11"></a> Chapter 11. Kubernetes Volume Management 
+# <a name="chapter-11"></a> Chapter 11. Kubernetes Volume Management 
 **Objectives:**
  
 1.            Explain the need for persistent data management.
@@ -395,7 +395,7 @@ Once a user finishes its work, the attached PersistentVolumes can be released. T
 **4. Container Storage Interface (CSI)**  
 third-party storage providers can develop solutions without the need to add them into the core Kubernetes codebase.
 
-#<a name="chapter-12"></a> Chapter 12. Deploying a Multi-Tier Application 
+# <a name="chapter-12"></a> Chapter 12. Deploying a Multi-Tier Application 
 **Objectives:**
  
 1.             Analyze a sample multi-tier application.
@@ -431,7 +431,7 @@ $ kubectl create secret generic my-password --from-literal=password=mysqlpasswor
 $ kubectl get secret my-password
 $ kubectl describe secret my-password
 ```
-#<a name="chapter-14"></a> Chapter 14. Ingress
+# <a name="chapter-14"></a> Chapter 14. Ingress
 **Objectives:**
  
 1.            Explain what Ingress and Ingress Controllers are.
@@ -526,7 +526,7 @@ quotas per Namespace
 * **Elasticsearch**, ollect the logs from different components of a given system
 * **fluentd** is an open source data collector, with custom configuration as an agent on the nodes. 
 
-#<a name="chapter-16"></a> Chapter 16. Kubernetes Community 
+# <a name="chapter-16"></a> Chapter 16. Kubernetes Community 
 
 **Kubernetes 常用命令**
 
