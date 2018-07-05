@@ -3,8 +3,8 @@ URL: [https://console.bluemix.net/docs/containers/cs_tutorials.html](https://con
 
 ![Service Architecture](../img/cs_org_ov.png)
 
-##1. Gain access to your cluster
-###Prerequisites
+## 1. Gain access to your cluster
+### Prerequisites
 
 To gain access to your cluster, download and install a few CLI tools and the IBM Cloud Kubernetes Service plug-in.
 
@@ -14,7 +14,7 @@ To gain access to your cluster, download and install a few CLI tools and the IBM
 `ibmcloud plugin install container-service -r Bluemix
 `
 
-###Gain access to your cluster
+### Gain access to your cluster
 1. Log in to your IBM Cloud account.  
 `
 ibmcloud login -a https://api.ng.bluemix.net
@@ -37,7 +37,7 @@ Alternatively, you may directly download your kubeconfig files to manually confi
 kubectl get nodes
 `
 
-##Add an IBM Cloud service to your cluster
+## Add an IBM Cloud service to your cluster
 1. Choose a service and a plan from the IBM Cloud services in the catalog.
 `
 ibmcloud service offerings
