@@ -65,7 +65,8 @@ Container orchestrators can make things easy for operators:
 *             Allow secure access to applications running inside containers.
 
 
-#<a name="chapter-02"></a>Chapter 2. Kubernetes 
+<a name="chapter-02"></a>
+#Chapter 2. Kubernetes 
 **Objectives:**  
 
 1.             Define Kubernetes.
