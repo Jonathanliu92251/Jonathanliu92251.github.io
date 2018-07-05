@@ -267,7 +267,7 @@ Kubernetes provides a higher-level abstraction called *Service*, which logically
 ![Grouping of Pods using Labels and Selectors](Services2.png)
 **2. kube-proxy**  
 All of the worker nodes run a daemon called kube-proxy, which watches the API server on the master node for the addition and removal of Services and endpoints. For each new Service, on each node, kube-proxy configures the iptables rules to capture the traffic for its ClusterIP and forwards it to one of the endpoints. When the service is removed, kube-proxy removes the iptables rules on all nodes as well.
-![kube-proxy, Services, and Endpoints](kubeproxy.png)
+![kube-proxy, Services, and Endpoints](../img/kubeproxy.png)
 
 **3. Service Discovery**  
 
@@ -384,11 +384,11 @@ Sometimes, applications have to meet certain conditions before they can serve tr
 **2. PersistentVolumes**  
 A Persistent Volume is a network-attached storage in the cluster, which is provisioned by the administrator.  
 PersistentVolumes can be dynamically provisioned based on the StorageClass resource. A StorageClass contains pre-defined provisioners and parameters to create a PersistentVolume. Using PersistentVolumeClaims, a user sends the request for dynamic PV creation, which gets wired to the StorageClass resource.
-![PersistentVolume](pv.png)
+![PersistentVolume](../img/pv.png)
 
 **3. PersistentVolumeClaims**  
 A **PersistentVolumeClaim (PVC)** is a request for storage by a user. Users request for PersistentVolume resources based on size, access modes, etc. Once a suitable PersistentVolume is found, it is bound to a PersistentVolumeClaim.
-![PersistentVolumeClaim Used In a Pod](pvc2.png)
+![PersistentVolumeClaim Used In a Pod](../img/pvc2.png)
 Once a user finishes its work, the attached PersistentVolumes can be released. The underlying PersistentVolumes can then be reclaimed and recycled for future usage. 
 
 **4. Container Storage Interface (CSI)**  
@@ -476,7 +476,7 @@ $ cat /etc/hosts
 ::1              localhost
 192.168.99.100   blue.example.com green.example.com        
 ```
-![Ingress URL Mapping](Ingress_URL_Mapping.png)
+![Ingress URL Mapping](../img/Ingress_URL_Mapping.png)
 
 #<a name="chapter-15"></a> Chapter 15. Advanced Topics 
 **1. Annotations**  

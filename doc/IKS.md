@@ -1,7 +1,7 @@
 **IBM Kubenetes Service (IKS)**  
 URL: [https://console.bluemix.net/docs/containers/cs_tutorials.html](https://console.bluemix.net/docs/containers/cs_tutorials.html)
 
-![Service Architecture](cs_org_ov.png)
+![Service Architecture](../img/cs_org_ov.png)
 
 ##1. Gain access to your cluster
 ###Prerequisites
@@ -89,7 +89,7 @@ o make your apps externally accessible from the public internet or a private net
       - The ALB listens for incoming HTTP or HTTPS, TCP, or UDP service requests. It forwards requests across the apps' pods based on the rules that you defined in the Ingress resource.
  * Use Ingress to implement your own ALB with custom routing rules and need SSL termination for your apps.
 
-![networking](networking.png) 
+![networking](../img/networking.png) 
  
 
 **Portal url:**  
