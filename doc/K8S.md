@@ -66,7 +66,7 @@ Container orchestrators can make things easy for operators:
 
 
 
-#Chapter 2. Kubernetes <a name="chapter-02"></a>
+#Chapter 2. Kubernetes
 **Objectives:**  
 
 1.             Define Kubernetes.
@@ -104,7 +104,7 @@ Kubernetes can be deployed on the environment of our choice, be it VMs, bare met
 
 
 
-#<a name="chapter-03"></a>Chapter 3. Kubernetes Architecture - Overview 
+#Chapter 3. Kubernetes Architecture - Overview 
 
 **Objectives:**
 
