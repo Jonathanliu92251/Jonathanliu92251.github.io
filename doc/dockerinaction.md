@@ -5,12 +5,12 @@ Container are not virtualization  - **unix process**
 Running software in containers for isolation  - **inter-process interruption**  
 Shipping containers - **image**  
 
-![Docker](01container.png)
+![Docker](../img/dockinaction/01container.png)
 
 ## 1.2 What problems does Docker solve ?
 1. Getting orgainzed  - **junk drawer to isolated container & images**
-![old](02mess.png)
-![new](03tidycontainer.png)
+![old](../img/dockinaction/dockinaction/02mess.png)
+![new](../img/dockinaction/03tidycontainer.png)
 
 2. Improving portability  
 
@@ -20,7 +20,7 @@ Shipping containers - **image**
 - By taking this approach, the overhead of running a virtual machine is fixed while the number of containers can scale up.
 Portecting your computer
 
-![new](04isolation.png)
+![new](../img/dockinaction/04isolation.png)
 ## 1.3 Why is Docker important ?
 1. easier for sys adm & software dev (container abstraction & tooling)
 2. push forward by large software companies & community
@@ -34,8 +34,8 @@ Portecting your computer
 3. add in-depth defense
 4. Keep compute clean 
 
-![old](05dockerrunA.png)
-![new](06dockerrunA.png)
+![old](../img/dockinaction/05dockerrunA.png)
+![new](../img/dockinaction/06dockerrunA.png)
 
 # 2. Running software in containers
 ## 2.1 Get help with Docker command line
@@ -121,7 +121,7 @@ program uses. Now the first program breaks.
 
 Docker solves software conflicts with such tools as *Linux namespaces, file system roots, and virtualized network components*. All these tools are used to provide isolation to each container.
 
-![2.2 solve](22Problem.png)
+![2.2 solve](../img/dockinaction/22Problem.png)
 ## 2.4 Eliminating metaconflicts: building a website farm
 1. Container ID, abbreviated container ID, or its human-friendly name.  
 	**PID:** hex-encoded 1024-bit numbers, or 16 * heximal characters:  
@@ -130,7 +130,7 @@ Docker solves software conflicts with such tools as *Linux namespaces, file syst
 	**CID file** uses known names in a global (Docker-wide) namespace: `docker create --cidfile /tmp/web.cid nginx`.  Docker won’t create a new container using the provided CID file if that file already exists. The command will fail just as it does when you create two containers with the same name.  
 2. All containers are in any one of four distinct states: running, paused, restarting, or exited.
 
-  ![2.3 Container Status](23ContainerStat.png)
+  ![2.3 Container Status](../img/dockinaction/23ContainerStat.png)
 
 ## 2.5 Building enviornment-agnostic systems
 1. Read-only file systems  
@@ -175,14 +175,14 @@ docker rmi  -f $(docker images)
 
 
 #3.Software installation simplified
-![StoryLine](31storyline.png)
+![StoryLine](../img/dockinaction/31storyline.png)
 ##3.1 Identify software
 **image ID, repository, Tag**  
   A repository is a named bucket of images. The name is similar to a URL. A repository’s name is made up of the name of the host where the image is located, the user account that owns the image, and a short name.  
-  ![repository](32repository.png)
+  ![repository](../img/dockinaction/32repository.png)
 
 ##3.2 Find & Install
-  ![Dockerhub](33dockerhub.png)
+  ![Dockerhub](../img/dockinaction/33dockerhub.png)
 DockerHub: [https://hub.docker.com](https://hub.docker.com)  
 docker login / logout  
 docker search
@@ -210,7 +210,7 @@ docker images / rmi
 	`docker build -t dia_ch3/dockerfile:latest ch3_dockerfile`
 
 ##3.3 Container file system abstraction and isolation
-![Layer relationships](34layer.png)
+![Layer relationships](../img/dockinaction/34layer.png)
 
 1. union file system  
 create mount points on your host’s file system that abstract the use of layers. The layers created are what are bundled into Docker image layers.  
@@ -225,7 +225,7 @@ make the root of the image file system the root in the con- tainer’s context. 
 
 #4. Persistent storage and shared state with volumes
 ##4.1 Introducing volumes
-![container & storage](41.png)
+![container & storage](../img/dockinaction/41.png)
 
 * A *volume* is a mount point on the con- tainer’s directory tree where a portion of the host directory tree has been mounted.
 * images are appropriate for packaging and distributing relatively static files like programs; volumes hold dynamic data or specializations. 
@@ -233,7 +233,7 @@ make the root of the image file system the root in the con- tainer’s context. 
 
 
 volume container.  
-![creating and recovering data persisted](42.png)
+![creating and recovering data persisted](../img/dockinaction/42.png)
 
 1. Specify volume mount point inside the container:
 	
@@ -267,7 +267,7 @@ volume container.
 		    -v /var/lib/cassandra/data \
 		    --name cass-shared \
 		    alpine echo Data Containe
-![Volume Type](43.png)
+![Volume Type](../img/dockinaction/43.png)
 
 ##4.3 Sharing volumes
 1. Host-dependent sharing  
@@ -288,7 +288,7 @@ created four containers, each of which mounted the same direc- tory as a volume.
 		            alpine:latest \
 		            head /toread/logB
 2. Generalized sharing
-![Volume Sharing](44.png)
+![Volume Sharing](../img/dockinaction/44.png)
 
 
 * The docker run command provides a flag that will copy the volumes from one or more containers to the new container. 
@@ -366,10 +366,10 @@ docker rm -v student
 
 #5. Network exposure
 ##5.1 Concepts
-![Basics: protocols, interfaces, and ports](51.png)
-![Bigger: networks, NAT, and port forwarding](52.png)
+![Basics: protocols, interfaces, and ports](../img/dockinaction/51.png)
+![Bigger: networks, NAT, and port forwarding](../img/dockinaction/52.png)
 ##5.2 Docker Container Networking
-![4 archetypes](53.png)
+![4 archetypes](../img/dockinaction/53.png)
 
 ###1. Closed containers
 
@@ -460,7 +460,7 @@ have a private loopback interface and another private interface that’s connect
     			cat /etc/hosts
 **2.3 Opening inbound communication**  
 	If DNS is your best tool for changing outbound traffic behavior, then the firewall and network topology is your best tool for controlling inbound traffic.
-	![An inbound traffic route to a bridged container](54.png)  
+	![An inbound traffic route to a bridged container](../img/dockinaction/54.png)  
 	
 	Example | Comment
 	---------+----------
@@ -478,7 +478,7 @@ have a private loopback interface and another private interface that’s connect
 * you can configure it to disallow network con- nections between containers. by setting --icc=false 
 * When inter-container communication is disabled, any traffic from one container to another will be blocked by the host’s firewall except where explicitly allowed.
 	
-![Inter-container communication](55.png)
+![Inter-container communication](../img/dockinaction/55.png)
 	
 **2.5 Modifying the bridge interface**
 
@@ -512,7 +512,7 @@ processes can bind to protected network ports numbered lower than 1024.
 	    --net host \
 	    alpine:latest ip addr
 
-![open container](511.png)
+![open container](../img/dockinaction/511.png)
 
 ## Inter-container dependencies
 
@@ -560,7 +560,7 @@ Containers provide isolated process contexts, not whole system virtualization. T
 * control the type of changes that a container can make to your computer
 * integrate with otherLinux isolation tools.
 
-![Eight-sided containers](61.png)
+![Eight-sided containers](../img/dockinaction/61.png)
 
 ##1. Resource Allowance
 
@@ -613,7 +613,7 @@ docker run / create [ memory | CPU | device ] [ n units ]
 	#remove
 	docker rm -vf ch6_ipc_producer ch6_ipc_consumer
 
-![Shared memeroy](62.png)
+![Shared memeroy](../img/dockinaction/62.png)
 
 ###(2)Using an open memory container
 
