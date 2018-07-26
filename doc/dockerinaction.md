@@ -174,14 +174,14 @@ docker rm -vf $(docker ps -a -q)
 docker rmi  -f $(docker images)
 
 
-#3.Software installation simplified
+# 3.Software installation simplified
 ![StoryLine](../img/dockerinaction/31storyline.png)
-##3.1 Identify software
+## 3.1 Identify software
 **image ID, repository, Tag**  
   A repository is a named bucket of images. The name is similar to a URL. A repository’s name is made up of the name of the host where the image is located, the user account that owns the image, and a short name.  
   ![repository](../img/dockerinaction/32repository.png)
 
-##3.2 Find & Install
+## 3.2 Find & Install
   ![Dockerhub](../img/dockerinaction/33dockerhub.png)
 DockerHub: [https://hub.docker.com](https://hub.docker.com)  
 docker login / logout  
@@ -209,7 +209,7 @@ docker images / rmi
 	`git clone https://github.com/dockerinaction/ch3_dockerfile.git` 
 	`docker build -t dia_ch3/dockerfile:latest ch3_dockerfile`
 
-##3.3 Container file system abstraction and isolation
+## 3.3 Container file system abstraction and isolation
 ![Layer relationships](../img/dockerinaction/34layer.png)
 
 1. union file system  
@@ -224,7 +224,7 @@ The Linux kernel provides a namespace for the MNT system. When Docker creates a 
 make the root of the image file system the root in the con- tainer’s context. This prevents anything running inside the container from referenc- ing any other part of the host file system.
 
 #4. Persistent storage and shared state with volumes
-##4.1 Introducing volumes
+## 4.1 Introducing volumes
 ![container & storage](../img/dockerinaction/41.png)
 
 * A *volume* is a mount point on the con- tainer’s directory tree where a portion of the host directory tree has been mounted.
@@ -254,7 +254,7 @@ volume container.
 		    --link cass1:cass \
 		    cassandra:2.2 cqlsh cass
 
-##4.2 Volume type
+## 4.2 Volume type
 **Bind mount volumes** use any user-specified directory or file on the host operating system
 
 		docker run -d --name bmweb \
@@ -269,7 +269,7 @@ volume container.
 		    alpine echo Data Containe
 ![Volume Type](../img/dockerinaction/43.png)
 
-##4.3 Sharing volumes
+## 4.3 Sharing volumes
 1. Host-dependent sharing  
 created four containers, each of which mounted the same direc- tory as a volume. The first two containers are writing to different files in that volume. The third and fourth containers mount the volume at a different location and as read- only. 
 
@@ -333,10 +333,10 @@ created four containers, each of which mounted the same direc- tory as a volume.
 		    alpine:latest \
 		    ls -l /library/
 
-##4.4 The managed volume life cycle
+## 4.4 The managed volume life cycle
 docker rm -v student
 
-##4.5 Container patterns
+## 4.5 Container patterns
 1. volume container  
 	* keeping a handle on data even in cases where a single container should have exclusive access to some data. These handles make it possible to easily back up, restore, and migrate data.
 	* keeping your volumes organized and avoiding the orphan volume problem.
@@ -364,14 +364,14 @@ docker rm -v student
 	* provides some functionality that’s easily substituted using volumes.   
 	* compose minimal functional components and maximize reuse.		 
 
-#5. Network exposure
+# 5. Network exposure
 ##5.1 Concepts
 ![Basics: protocols, interfaces, and ports](../img/dockerinaction/51.png)
 ![Bigger: networks, NAT, and port forwarding](../img/dockerinaction/52.png)
-##5.2 Docker Container Networking
+## 5.2 Docker Container Networking
 ![4 archetypes](../img/dockerinaction/53.png)
 
-###1. Closed containers
+### 1. Closed containers
 
 		#Create a closed container, list the interfaces
 	    docker run --rm \
@@ -391,7 +391,7 @@ docker rm -v student
      - Running a terminal text editor
      - Running a program to generate a random password
 
-###2. Bridged containers
+### 2. Bridged containers
 have a private loopback interface and another private interface that’s connected to the rest of the host through a network bridge
 
 		#Create a closed container, list the interfaces
@@ -486,7 +486,7 @@ have a private loopback interface and another private interface that’s connect
 * Define the range of IP addresses that can be assigned to containers
 * Define the maximum transmission unit (MTU). `docker -d –mtu 1200`
 
-###3. Joined containers
+### 3. Joined containers
 * These containers share a common network stack. 
 * In this way there’s no isolation between joined containers. 
 * This means reduced control and security.  
@@ -502,7 +502,7 @@ have a private loopback interface and another private interface that’s connect
 			    --net container:brady \
 			    alpine:latest netstat –al
 
-###4. Open containers
+### 4. Open containers
 have no network container and have full access to the host’s network.
 provide absolutely no isolation  
 processes can bind to protected network ports numbered lower than 1024.
@@ -550,7 +550,7 @@ Adding a link on a new container does three things:
 		docker run -d --name buggyProgram \
 		    dockerinaction/ch5_buggy    
 		    
-#6. Limiting risk with isolation
+# 6. Limiting risk with isolation
 
 Containers provide isolated process contexts, not whole system virtualization. The semantic difference may seem subtle, but the impact is drastic. What to cover:
 
@@ -562,7 +562,7 @@ Containers provide isolated process contexts, not whole system virtualization. T
 
 ![Eight-sided containers](../img/dockerinaction/61.png)
 
-##1. Resource Allowance
+## 6.1 Resource Allowance
 
 docker run / create [ memory | CPU | device ] [ n units ]
 
@@ -593,8 +593,8 @@ docker run / create [ memory | CPU | device ] [ n units ]
 	docker -it --rm \
     	--device /dev/video0:/dev/video0 \
     	ubuntu:latest ls -al /dev
-##2. Shared memory
-###(1)Sharing IPC primitives between containers: "--IPC"
+## 6.2 Shared memory
+### (1)Sharing IPC primitives between containers: "--IPC"
 	#Start producer
 	docker -d -u nobody
 		--name ch6_ipc_producer \
@@ -615,7 +615,7 @@ docker run / create [ memory | CPU | device ] [ n units ]
 
 ![Shared memeroy](../img/dockerinaction/62.png)
 
-###(2)Using an open memory container
+### (2)Using an open memory container
 
 	# Start a producer, Use open memory container
 	docker -d --name ch6_ipc_producer \
@@ -630,7 +630,7 @@ docker run / create [ memory | CPU | device ] [ n units ]
 	# Clean up
 	docker rm -vf ch6_ipc_producer ch6_ipc_consumer
 
-##3. Users
+## 6.3 Users
 **USR namespace**. File system inside a container,  except for volume, will not be impactedby inherited user privilege. 
 
 * Displays the metadata of a specific container: `docker inspect [ container ]`
@@ -643,7 +643,8 @@ docker run / create [ memory | CPU | device ] [ n units ]
 		docker run --rm \
 		    -u 10000:20000 \
 		    busybox:latest id
-##4. run w/ Privileged user: --privileged
+		    
+## 6.4. run w/ Privileged user: --privileged
 docker create or docker run 
 
 docker run --rm 
@@ -656,7 +657,7 @@ docker run --rm
     --privileged 
     --host 
     ubuntu:latest id
-##5. Build use-case-appropriate containers
+## 6.5 Build use-case-appropriate containers
 
 In reality, people tend to be a bit more reactive than proactive.Start with the most isolated container you can build and justify reasons for weakening those restrictions. 
 
