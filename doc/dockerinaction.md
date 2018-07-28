@@ -225,7 +225,7 @@ The Linux kernel provides a namespace for the MNT system. When Docker creates a 
 3. chroot system call.  
 make the root of the image file system the root in the con- tainer’s context. This prevents anything running inside the container from referenc- ing any other part of the host file system.
 
-#4. Persistent storage and shared state with volumes
+# 4. Persistent storage and shared state with volumes
 ## 4.1 Introducing volumes
 ![container & storage](../img/dockerinaction/41.png)
 
@@ -367,7 +367,7 @@ docker rm -v student
 	* compose minimal functional components and maximize reuse.		 
 
 # 5. Network exposure
-##5.1 Concepts
+## 5.1 Concepts
 ![Basics: protocols, interfaces, and ports](../img/dockerinaction/51.png)
 ![Bigger: networks, NAT, and port forwarding](../img/dockerinaction/52.png)
 ## 5.2 Docker Container Networking
@@ -1017,8 +1017,8 @@ an auxiliary Docker client, provides features that relieve much of the tedium as
 Name      | Comments| Strategy|
 ----------|---------|-------
 Scheduleing |Selecting a machine based on machine’s hardware, and network locality | Spread, BinPack, Random
-Service discovery|resolving the location of a named service
-Registration|Advertising the availability of a service at a specific location
+Service discovery|resolving the location of a named service|DNS
+Registration|Advertising the availability of a service at a specific location|in-memory db, eg. Etcd
 
 ![Cluster1](../img/dockerinaction/1201.png)
 ![Cluster2](../img/dockerinaction/1202.png)
