@@ -1,3 +1,5 @@
+![Docker In Action](../img/dockerinaction/0000.png)
+PDF Book: [Docker In Action](../img/dockerinaction/DockerinAction.pdf)
 # 1 Welcome to Docker
 ## 1.1 What's Docker ?
 Container  - **concealed processes**  
@@ -669,3 +671,356 @@ The best approach is to isolate the risk.
 4. Specifically whitelist devices that it can access. That will keep snoops off your webcam, USB, and the like.
     
 	
+# 7 Packaging software in images
+**Objectives:**	
+
+* New images are created when changes to a container are committed using the docker commit command.
+* When a container is committed, the configuration it was started with will be encoded into the configuration for the resulting image.
+* An image is a stack of layers that’s identified by its top layer.
+* An image’s size on disk is the sum of the sizes of its component layers.
+* Images can be exported to and imported from a flat tarball representation using the docker export and docker import commands.
+* The docker tag command can be used to assign several tags to a single repository.
+* Repository maintainers should keep pragmatic tags to ease user adoption and migration control.
+* Tag your latest stable build with the latest tag.
+* Provide fine-grained and overlapping tags so that adopters have control of the scope of their dependency version creep.
+
+**Configurable image attributes**
+
+* All environment variables
+* The working directory
+* The set of exposed ports
+* All volume definitions
+* The container entrypoint
+* Command and arguments
+
+![layered image](../img/dockerinaction/0701.png)
+![tag schemes](../img/dockerinaction/0702.png)
+
+# 8 Build automation and advanced image considerations
+
+**Objectives:**
+
+* Docker provides an automated image builder that reads instructions from Dockerfiles.
+* Each Dockerfile instruction results in the creation of a single image layer.
+* Merge instructions whenever possible to minimize the size of images and layer count.
+* Dockerfiles include instructions to set image metadata like the default user, exposed ports, default command, and entrypoint.
+* Other Dockerfile instructions copy files from the local file system or remote location into the produced images.
+* Downstream builds inherit build triggers that are set with ONBUILD instructions in an upstream Dockerfile.
+* Startup scripts should be used to validate the execution context of a container before launching the primary application.
+* A valid execution context should have appropriate environment variables set, network dependencies available, and an appropriate user configuration.
+* Init programs can be used to launch multiple processes, monitor those pro- cesses, reap orphaned child processes, and forward signals to child processes.
+* Images should be hardened by building from content addressable image identifiers, creating a non-root default user, and disabling or removing any executable with SUID or SGID permissions.
+
+
+## Packaging Git with a Dockerfile
+
+Dockerfile 分为四部分：基础镜像信息、维护者信息、镜像操作指令和容器启动时执行指令。’#’ 为 Dockerfile 中的注释。
+
+```
+# This my first nginx Dockerfile
+# Version 1.0
+
+# Base images 基础镜像
+FROM centos
+
+#MAINTAINER 维护者信息
+MAINTAINER tianfeiyu 
+
+#ENV 设置环境变量
+ENV PATH /usr/local/nginx/sbin:$PATH
+
+#ADD  文件放在当前目录下，拷过去会自动解压
+ADD nginx-1.8.0.tar.gz /usr/local/  
+ADD epel-release-latest-7.noarch.rpm /usr/local/  
+
+#RUN 执行以下命令 
+RUN rpm -ivh /usr/local/epel-release-latest-7.noarch.rpm
+RUN yum install -y wget lftp gcc gcc-c++ make openssl-devel pcre-devel pcre && yum clean all
+RUN useradd -s /sbin/nologin -M www
+
+#WORKDIR 相当于cd
+WORKDIR /usr/local/nginx-1.8.0 
+
+RUN ./configure --prefix=/usr/local/nginx --user=www --group=www --with-http_ssl_module --with-pcre && make && make install
+
+RUN echo "daemon off;" >> /etc/nginx.conf
+
+#EXPOSE 映射端口
+EXPOSE 80
+
+#CMD 运行以下命令
+CMD ["nginx"]
+```
+
+ FROM : 指定基础镜像，要在哪个镜像建立
+
+    格式为 FROM <image> 或FROM <image>:<tag> 。
+
+第一条指令必须为 FROM 指令。
+
+MAINTAINER：指定维护者信息
+
+    格式为 MAINTAINER <name>
+
+RUN：在镜像中要执行的命令
+
+    格式为 RUN <command> 或 RUN ["executable", "param1", "param2"]
+
+前者将在 shell 终端中运行命令，即 /bin/bash -c ；后者则使用 exec 执行。指定使用其它终端可以通过第二种方式实现，例如 RUN [“/bin/bash”, “-c”,”echo hello”] 。
+
+WORKDIR：指定当前工作目录，相当于 cd
+
+    格式为 WORKDIR /path/to/workdir
+
+为后续的 RUN 、 CMD 、 ENTRYPOINT 指令配置工作目录。
+可以使用多个 WORKDIR 指令，后续命令如果参数是相对路径，则会基于之前命令指定的路径。例如
+
+    WORKDIR /a
+    WORKDIR b
+    WORKDIR c
+    RUN pwd
+
+则最终路径为 /a/b/c 。
+
+EXPOSE：指定容器要打开的端口
+
+    格式为 EXPOSE <port> [<port>...]
+
+告诉 Docker 服务端容器暴露的端口号，供互联系统使用。在启动容器时需要通过 -P，Docker 主机会自动分配一个端口转发到指定的端口。
+
+ENV：定义环境变量
+
+格式为 ENV <key> <value> 。 指定一个环境变量，会被后续 RUN 指令使用，并在容器运行时保持。
+例如
+
+    ENV PATH /usr/local/nginx/sbin:$PATH
+
+COPY ：复制本地主机的 （为 Dockerfile 所在目录的相对路径）到容器中的
+
+    格式为 COPY 。
+
+ADD：相当于 COPY，但是比 COPY 功能更强大
+
+    格式为 ADD <src> <dest>
+
+该命令将复制指定的 到容器中的 。 其中 可以是Dockerfile所在目录的一个相对路径；也可以是一个 URL；还可以是一个 tar 文件，复制进容器会自动解压。
+
+VOLUME：挂载目录
+
+    格式为VOLUME ["/data"]
+
+创建一个可以从本地主机或其他容器挂载的挂载点，一般用来存放数据库和需要保持的数据等。
+
+USER
+
+    格式为 USER daemon
+
+指定运行容器时的用户名或 UID，后续的 RUN 也会使用指定用户。当服务不需要管理员权限时，可以通过该命令指定运行用户。并且可以在之前创建所需要的用户，例如： RUN useradd -s /sbin/nologin -M www。
+
+ENTRYPOINT
+
+两种格式：
+
+    ENTRYPOINT ["executable", "param1", "param2"]
+     
+    ENTRYPOINT command param1 param2 （shell中执行）
+
+配置容器启动后执行的命令，并且不可被 docker run 提供的参数覆盖。每个 Dockerfile 中只能有一个 ENTRYPOINT ，当指定多个时，只有最后一个起效。
+
+CMD
+
+支持三种格式
+
+    CMD ["executable","param1","param2"] 使用 exec 执行，推荐方式；
+    CMD command param1 param2 在 /bin/bash 中执行，提供给需要交互的应用；
+    CMD ["param1","param2"] 提供给 ENTRYPOINT 的默认参数；
+
+指定启动容器时执行的命令，每个 Dockerfile 只能有一条 CMD 命令。如果指定了多条命令，只有最后一条会被执行。如果用户启动容器时候指定了运行的命令，则会覆盖掉 CMD 指定的命令。
+
+ONBUILD：在构建本镜像时不生效，在基于此镜像构建镜像时生效
+
+    格式为 ONBUILD [INSTRUCTION]
+
+配置当所创建的镜像作为其它新创建镜像的基础镜像时，所执行的操作指令。
+
+ENTRYPOINT 和 CMD 的区别：ENTRYPOINT 指定了该镜像启动时的入口，CMD 则指定了容器启动时的命令，当两者共用时，完整的启动命令像是 ENTRYPOINT + CMD 这样。使用 ENTRYPOINT 的好处是在我们启动镜像就像是启动了一个可执行程序，在 CMD 上仅需要指定参数；另外在我们需要自定义 CMD 时不容易出错。
+
+使用 CMD 的 Dockerfile：
+
+    [root@sta2 test]# cat Dockerfile 
+    FROM mysql
+     
+    CMD ["echo","test"]
+
+使用 ENTRYPOINT 的 Dockerfile：
+
+    [root@sta2 entrypoint]#  cat  Dockerfile 
+    FROM mysql
+     
+    ENTRYPOINT ["echo","test"]
+
+结论：ENTRYPOINT 不能覆盖掉执行时的参数，CMD 可以掉覆盖默认的参数。
+
+# 9. Choosing a distribution method
+
+## 9.1 Choosing a distribution method
+**A distribution spectrum**
+![distribution spectrum](../img/dockerinaction/0901.png)
+
+**Selection criteria**
+
+1. **COST**  
+Cost is the most obvious criterion, and the distribution spectrum ranges in cost from free to very expensive and “it’s complicated.” Lower cost is generally better, but cost is typically the most flexible criterion. For example, most people will trade cost for arti- fact confidentiality if the situation calls for it.
+2. **VISIBILITY**  
+Visibility is the next most obvious criterion for a distribution method. Secret projects or internal tools should be difficult if not impossible for unauthorized people to dis- cover. In another case, public works or open source projects should be as visible as possible to promote adoption.
+3. **TRANSPORTATION**  
+Transportation speed and bandwidth overhead are the next most flexible criteria. File sizes and image installation speed will vary between methods that leverage image lay- ers, concurrent downloads, and prebuilt images and those that use flat image files or rely on deployment time image builds. High transportation speeds or low installation latency is critical for systems that use just-in-time deployment to service synchronous requests. The opposite is true in development environments or asynchronous process- ing systems.
+4. **LONGEVITY**  
+Longevity control is a business concern more than a technical concern. Hosted distri- bution methods are subject to other people’s or companies’ business concerns. An executive faced with the option of using a hosted registry might ask, “What happens if they go out of business or pivot away from repository hosting?” The question reduces to, “Will the business needs of the third party change before ours?” If this is a concern for you, then longevity control is important. Docker makes it simple to switch between methods, and other criteria like requisite expertise or cost may actually trump this concern. For those reasons, longevity control is another of the more flexible criteria.
+5. **AVAILABILITY**  
+Availability control is the ability to control the resolution of availability issues with your repositories. Hosted solutions provide no availability control. Businesses typically provide some service-level agreement on availability if you’re a paying customer, but there’s nothing you can do to directly resolve an issue. On the other end of the spec- trum, private registries or custom solutions put both the control and responsibility in your hands.
+6. **ACCESS CONTROL**  
+Access control protects your images from modification or access by unauthorized par- ties. There are varying degrees of access control. Some systems provide only access control of modifications to a specific repository, whereas others provide course con- trol of entire registries. Still other systems may include pay walls or digital rights man- agement controls. Projects typically have specific access control needs dictated by the product or business. This makes access control requirements one of the least flexible and most important to consider.
+7. **INTEGRITY**  
+Artifact integrity and confidentiality both fall in the less-flexible and more-technical end of the spectrum. Artifact integrity is trustworthiness and consistency of your files and images. Violations of integrity may include man-in-the-middle attacks, where an attacker intercepts your image downloads and replaces the content with their own. They might also include malicious or hacked registries that lie about the payloads they return.
+8. **CONFIDENTIALITY**  
+Artifact confidentiality is a common requirement for companies developing trade secrets or proprietary software. For example, if you use Docker to distribute crypto- graphic material, then confidentiality will be a major concern. Artifact integrity and confidentiality features vary across the spectrum. Overall, the out-of-the-box distribu- tion security features won’t provide the tightest confidentiality or integrity. If that’s one of your needs, an information security professional will need to implement and review a solution.
+9. **SKILLS**  
+The last thing to consider when choosing a distribution method is the level of expertise required. Using hosted methods can be very simple and requires little more than a mechanical understanding of the tools. Building custom image or image source distribution pipelines requires expertise with a suite of related technologies. If you don’t have that expertise or don’t have access to someone who does, using more complicated solutions will be a challenge. In that case, you may be able to reconcile the gap at additional cost.
+
+
+## 9.2 Hosted registries (public / private)
+### 9.2.1 Publishing with public repositories: Hello World via Docker Hub 
+HelloWorld.df
+	FROM busybox:latest
+	CMD echo Hello World
+
+
+https://hub.docker.com/
+docker login
+docker push <jonathanliuyangs>/hello-dockerfile
+docker build \
+    -t <insert Docker Hub username>/hello-dockerfile \
+    -f HelloWorld.df \
+docker search   jonathanliuyangs
+
+
+### 9.2.2 Publishing public projects with automated builds
+
+  ![Auto](../img/dockerinaction/0903.png)
+
+git remote add origin \
+    https://github.com/<your username>/hello-docker.git
+// auto build on DockerHub    
+git add Dockerfile
+git commit -m "first commit"
+git push -u origin master    
+
+defaults write com.apple.screencapture location /Users/jonathanliu/Jonathanliu92251.github.io/img/dockerinaction
+/Users/jonathanliu/Jonathanliu92251.github.io/img/dockerinaction>killall SystemUIServer
+
+## 9.3 Private registries 
+  ![Private](../img/dockerinaction/0904.png)
+  
+  
+  docker running process
+  local image cache, 
+  local / remote repository
+  
+  1. Starting a local registry in a container can be done with a single command:
+     In this example, the registry location is localhost:5000. you can use docker pull, run, tag, and push commands.
+  
+	    docker run -d -p 5000:5000 \
+	           -v "$(pwd)"/data:/tmp/registry-dev \
+	           --restart=always --name local-registry registry:2
+
+  2. copying images from Docker Hub into your new registry:
+	
+		docker pull dockerinaction/ch9_registry_bound
+		docker images -f "label=dia_excercise=ch9_registry_bound"
+		docker tag dockerinaction/ch9_registry_bound \
+		    localhost:5000/dockerinaction/ch9_registry_bound
+		docker push localhost:5000/dockerinaction/ch9_registry_bound
+
+  3. copying images from Docker Hub into your new registry:
+		
+		docker pull localhost:5000/dockerinaction/ch9_registry_bound
+		docker exec -it 4e12b823c8cb "/bin/sh"
+		
+## 9.4 Manual image (tar file)
+![workflow](../img/dockerinaction/0907.png)
+
+docker pull registry:2
+docker save -o ./registry.2.tar registry:2
+docker load -i registry.2.tar		
+
+## 9.5 Image source (built from source)
+
+1. build /publish
+ 
+		git init
+		git config --global user.email "you@example.com"
+		git config --global user.name "Your Name"
+		git add Dockerfile
+		
+		# git add *whatever other files you need for the image*
+		git commit -m "first commit"
+		git remote add origin https://github.com/<your username>/<your repo>.git 
+		git push -u origin master
+
+2. get & build
+
+		git clone https://github.com/<your username>/<your repo>.git
+		cd <your-repo>
+		docker build -t <your username>/<your repo> .
+
+# 10. Running customized registries
+
+**Different registries**
+
+![Different registries](../img/dockerinaction/1001.png)
+
+
+## 1. Personal
+default: /var/lib/registry
+
+	docker run -d --name personal_registry \
+	    -p 5000:5000 --restart=always \
+	    registry:2
+	    
+	docker tag registry:2 localhost:5000/distribution:2
+	docker push localhost:5000/distribution:2  
+	
+	docker rmi localhost:5000/distribution:2
+	docker pull localhost:5000/distribution:2
+  
+## 2. Centralized
+## 3. Centralized durable
+## 4. Fast & scalable
+## 5. Integrated
+## Registry API V2
+ [Registry API V2](https://docs.docker.com/registry/spec/api/)
+ 
+# 11. Declarative environments with Docker Compose
+
+**Docker Compose**
+
+an auxiliary Docker client, provides features that relieve much of the tedium associated with commandline management of containers. Defining, launching, and managing services, where a service is defined as one or more replicas of a Docker container
+
+1. Compose uses environment definitions that are provided in YAML configura- tion files
+2. docker-compose commandline, can build images, launch and manage services, scale services, and view logs on any host running a Docker daemon
+3. similar to docker command-line commands. Building, starting, stopping, removing, and listing services 
+4. Declaring environment configuration with YAML enables environment version- ing, sharing, iteration, and consistency.
+
+# 12. Clusters with Machine and Swarm
+
+Name      | Comments| Strategy|
+----------|---------|-------
+Scheduleing |Selecting a machine based on machine’s hardware, and network locality | Spread, BinPack, Random
+Service discovery|resolving the location of a named service
+Registration|Advertising the availability of a service at a specific location
+
+![Cluster1](../img/dockerinaction/1201.png)
+![Cluster2](../img/dockerinaction/1202.png)
+![Cluster3](../img/dockerinaction/1203.png)
+
