@@ -1,3 +1,7 @@
+# My projects
+- [Wechat Robot](https://jonathanliu92251.github.io/wechat-bot/)
+- [AWSPricing AutoStore](https://jonathanliu92251.github.io/aws-sns-pricing/)
+
 # Python Language
 - [Python01](/doc/Python01.md)
 - [Python02](/doc/Python02.md)
